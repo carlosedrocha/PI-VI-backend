@@ -1,25 +1,23 @@
-// controllers/userController.js
+// controllers/user.controller.js
 
-const User = require('../models/User');
-const bcrypt = require('bcrypt');
+const userModel = require('../models/userModel');
 
-exports.createUser = async (req, res) => {
+async function createUser(req, res) {
+  console.log('Chegou?...');
   try {
     const { username, email, password } = req.body;
-
-    // Hash da senha
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    User.createUser(
-      { username, email, password: hashedPassword },
-      (err, userId) => {
-        if (err) {
-          return res.status(500).json({ error: 'Erro ao criar usuário' });
-        }
-        res.status(201).json({ message: 'Usuário criado com sucesso', userId });
-      }
-    );
+    const user = await userModel.createUser({ username, email, password });
+    res.status(201).json(user);
+    console.log('Chegou?...');
   } catch (error) {
-    res.status(500).json({ error: 'Erro ao criar usuário' });
+    console.error(error);
+        console.log('Chegou?.');
+
+    // console.log(`here`, req.body);
+    res.status(400).json({ error: 'Erro ao criar usuário' });
   }
+}
+
+module.exports = {
+  createUser,
 };
