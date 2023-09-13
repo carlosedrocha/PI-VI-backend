@@ -13,7 +13,7 @@ app.use(cors());
 app.use('/', routes); // Prefixamos com '/user' para seguir boas práticas
 
 // Iniciar o servidor
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
   console.log(routes);
