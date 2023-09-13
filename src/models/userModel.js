@@ -19,6 +19,23 @@ async function createUser({ username, email, password }) {
   }
 }
 
+// Função para consultar todos os usuários
+
+async function selectUsers() {
+  try {
+    const users = await prisma.user.findMany();
+    return users;
+  }
+  catch (error) {
+    console.error('Erro ao buscar os usuários', error);
+    throw new Error('Erro interno do servidor');
+  }
+  finally {
+    await prisma.$disconnect();
+  }
+};
+
 module.exports = {
   createUser,
+  selectUsers
 };
