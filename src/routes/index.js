@@ -2,9 +2,20 @@ const express = require('express');
 const userRoutes = require('./userRoutes');
 const authRoutes = require('./authRoutes');
 
-const routes = express.Router();
+class AppRouter {
+  constructor() {
+    this.router = express.Router();
+    this.setupRoutes();
+  }
 
-routes.use('/user', userRoutes);
-// router.use('/auth', authRoutes);
+  setupRoutes() {
+    this.router.use('/user', userRoutes);
+    this.router.use('/auth', authRoutes);
+  }
 
-module.exports = routes;
+  getRoutes() {
+    return this.router;
+  }
+}
+
+module.exports = new AppRouter().getRoutes();

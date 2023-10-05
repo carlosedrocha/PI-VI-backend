@@ -5,12 +5,15 @@ const bodyParser = require('body-parser');
 const routes = require('./src/routes/index');
 const cors = require('cors')
 const app = express();
+const userRoutes = require('./src/routes/userRoutes');
+
 
 // Middleware para analisar solicitações JSON
 app.use(bodyParser.json());
 app.use(cors());
 // Rotas
 app.use('/', routes); // Prefixamos com '/user' para seguir boas práticas
+app.use('/user', userRoutes);
 
 // Iniciar o servidor
 const port = process.env.PORT || 3001;
