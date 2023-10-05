@@ -25,7 +25,6 @@
         const user = await this.userModel.createUser({ username, email, password });
         res.status(201).json(user);
       } catch (error) {
-        console.log(error)
         res.status(400).json({ error: 'Erro ao criar usuário' });
       }
     }
@@ -35,7 +34,6 @@
         const users = await this.userModel.selectUsers();
         res.json(users);
       } catch (error) {
-        console.log(error)
         res.status(400).json({ error: error });
       }
     }
