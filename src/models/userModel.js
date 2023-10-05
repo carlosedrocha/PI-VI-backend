@@ -4,20 +4,21 @@ const express = require('express')
 
 class UserModel {
   constructor() {
-    // this.router = express.Router();
+    this.router = express.Router();
     this.prisma = new PrismaClient();
-    // this.setupRoutes();
+    this.setupRoutes();
   }
 
-  // setupRoutes() {
-  //   this.router.post('/create', this.createUser.bind(this));
-  //   this.router.get('/all', this.selectUsers);
-  //   this.router.delete('/delete/:id', this.deleteUser.bind(this));
-  //   this.router.put('/updateUserName/:id', this.updateUserName.bind(this));
-  //   this.router.put('/updateEmail/:id', this.updateEmail.bind(this));
-  //   this.router.put('/updatePassword/:id', this.updatePassword.bind(this));
-  //   this.router.post('/login', this.login.bind(this));
-  // }
+
+  setupRoutes() {
+    this.router.post('/create', this.createUser.bind(this));
+    this.router.get('/all', this.selectUsers.bind(this));
+    this.router.delete('/delete/:id', this.deleteUser.bind(this));
+    this.router.put('/updateUserName/:id', this.updateUserName.bind(this));
+    this.router.put('/updateEmail/:id', this.updateEmail.bind(this));
+    this.router.put('/updatePassword/:id', this.updatePassword.bind(this));
+    this.router.post('/login', this.login.bind(this));
+ }
 
   async createUser({ username, email, password }) {
     console.log('Creating user...');
@@ -31,6 +32,7 @@ class UserModel {
       });
       return user;
     } catch (error) {
+      console.log(error)
       throw error;
     }
   }
