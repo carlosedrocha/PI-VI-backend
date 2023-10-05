@@ -10,7 +10,7 @@ class AuthRouter {
     }
 
     setupRoutes() {
-        this.router.post('/auth/login', this.authController.login.bind(this.authController));
+        this.router.post('/login', this.authController.login.bind(this.authController));
     }
 
     getRoutes() {

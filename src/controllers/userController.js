@@ -1,7 +1,7 @@
   const UserModel = require('../models/userModel');
   const express = require('express')
-  const jwt = require('jsonwebtoken');
   const router = express.Router();
+  const bcrypt = require('bcrypt');
 
   class UserController {
     constructor() {

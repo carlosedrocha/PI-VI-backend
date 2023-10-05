@@ -12,7 +12,7 @@ class AuthController {
   }
 
   setupRoutes() {
-    this.router.post('/auth/login', this.login.bind(this));
+    this.router.post('/login', this.login.bind(this));
   }
 
   async login(req, res) {
@@ -22,7 +22,7 @@ class AuthController {
       console.log('Email recebido:', email);
   
       // Consulta o usuário com base no email fornecido
-      const user = await user.findByEmail(email);
+      const user = await this.authModel.login(req, res);
   
       console.log('Usuário encontrado:', user);
   
