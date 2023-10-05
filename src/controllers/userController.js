@@ -1,5 +1,6 @@
   const UserModel = require('../models/userModel');
   const express = require('express')
+  const jwt = require('jsonwebtoken');
   const router = express.Router();
 
   class UserController {
@@ -16,7 +17,7 @@
       this.router.put('/updateUserName/:id', this.updateUserName.bind(this));
       this.router.put('/updateEmail/:id', this.updateEmail.bind(this));
       this.router.put('/updatePassword/:id', this.updatePassword.bind(this));
-      this.router.post('/login', this.login.bind(this));
+      // this.router.post('/login', this.login.bind(this));
     }
 
     async createUser(req, res) {
@@ -75,16 +76,6 @@
         const id = req.params.id;
         const { password } = req.body;
         const user = await this.userModel.updatePassword(id, password);
-        res.json(user);
-      } catch (error) {
-        res.status(400).json({ error: 'Erro interno do servidor' });
-      }
-    }
-
-    async login(req, res) {
-      try {
-        const { username, password } = req.body;
-        const user = await this.userModel.login(username, password);
         res.json(user);
       } catch (error) {
         res.status(400).json({ error: 'Erro interno do servidor' });
