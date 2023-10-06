@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcrypt');
 const express = require('express');
 const jwt = require('jsonwebtoken');
-
+const  verifyPassword = require('../helpers/password');
 class AuthModel {
     constructor() {
         this.router = express.Router();
@@ -27,16 +27,19 @@ class AuthModel {
             });
 
             if (!user) {
-                return res.status(401).json({ error: 'Credenciais inválidas' });
+                throw new Error("Usuario nao encontrado, verifique as credenciais")
+                // return res.status(401).json({ error: 'Credenciais inválidas' });
             }
 
             console.log(password, ":", user.hashedPassword);
 
             if (password && user.hashedPassword) {
-                const passwordMatch = await bcrypt.compare(password, user.hashedPassword);
+                const passwordMatch = await verifyPassword(password, user.hashedPassword);
 
                 if (!passwordMatch) {
-                    return res.status(401).json({ error: 'Credenciais inválidas' });
+                    throw new Error("Credenciais inválidas")
+
+                    // return res.status(401).json({ error: 'Credenciais inválidas' });
                 }
             }
 
@@ -53,7 +56,8 @@ class AuthModel {
         } catch (error) {
             console.error(error);
             // Envie a resposta JSON de erro
-            return res.status(500).json({ error: 'Erro interno do servidor' });
+            throw new Error("Erro nao tratado: ", e.message)
+            // return res.status(500).json({ error: 'Erro interno do servidor' });
         }
     }
 }
