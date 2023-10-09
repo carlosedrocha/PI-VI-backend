@@ -7,7 +7,7 @@
 
         DATABASE_URL = CONNECTION STRING
 
-        PORT = 3001
+        PORT = 3001 
 
     3 - No terminal: npx prisma generate
 

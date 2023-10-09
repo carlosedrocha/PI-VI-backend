@@ -18,6 +18,19 @@ async function createUser(req, res) {
   }
 }
 
+async function getUser(req, res) {
+  console.log('Chegou?...');
+  try {
+    const user = await userModel.getUser({ username: req.params.username });
+    res.status(200).json(user);
+    console.log('Chegou?...');
+  } catch (error) {
+    console.error(error);
+        console.log('Chegou?.');
+  }
+}
+
 module.exports = {
   createUser,
+  getUser,
 };

@@ -3,7 +3,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./src/routes/index');
-const cors = require('cors')
+const cors = require('cors');
+
 const app = express();
 
 // Middleware para analisar solicitações JSON
