@@ -30,11 +30,9 @@ class AuthModel {
 
             if (password && user.hashedPassword) {
                 const passwordMatch = await verifyPassword(password, user.hashedPassword);
-
+                
                 if (!passwordMatch) {
-                    throw new Error("Credenciais inválidas")
-
-                    // return res.status(401).json({ error: 'Credenciais inválidas' });
+                    throw new Error("Credenciais inválidas", Error);                   
                 }
             }
 
@@ -42,12 +40,8 @@ class AuthModel {
             const token = jwt.sign({ id: user.id }, process.env.SECRET, {
                 expiresIn: 1500 // expira em 5 minutos
             });
-
-            // Envie a resposta JSON de sucesso
-            return res.status(200).json({
-                token,
-                message: 'Autenticação bem-sucedida'
-            });
+            return token;
+       
         } catch (error) {
             // Envie a resposta JSON de erro
             throw new Error("Erro na autenticação")

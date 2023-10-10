@@ -36,8 +36,7 @@ class AuthController {
       }
   
       // Se as credenciais forem válidas, você pode criar um token de autenticação JWT ou estabelecer uma sessão de autenticação aqui.
-  
-      res.json({ message: 'Autenticação bem-sucedida' });
+       res.status(200).send({token});
     } catch (error) {
       res.status(400).json({ error: 'Erro na autenticação' });
     }
