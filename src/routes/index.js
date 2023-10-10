@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-const express = require('express');
-const userRoutes = require('./userRoutes');
-const authRoutes = require('./authRoutes');
-
-const routes = express.Router();
-
-routes.use('/user', userRoutes);
-// router.use('/auth', authRoutes);
-
-module.exports = routes;
-=======
 const express = require('express');
 const userRoutes = require('./userRoutes');
 const authRoutes = require('./authRoutes');
@@ -31,4 +19,3 @@ class AppRouter {
 }
 
 module.exports = new AppRouter().getRoutes();
->>>>>>> PedroZ
