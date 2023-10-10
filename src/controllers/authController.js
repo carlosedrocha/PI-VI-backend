@@ -23,14 +23,6 @@ class AuthController {
   
       // Consulta o usuário com base no email fornecido
       const token = await this.authModel.login(req, res);
-      console.log(token)
-      // Verifica se o usuário existe
-  
-      // Verifica a senha
-      //const passwordMatch = await bcrypt.compare(password, user.hashedPassword);
-  
-      //console.log('Comparação de senha:', passwordMatch);
-      // Se as credenciais forem válidas, você pode criar um token de autenticação JWT ou estabelecer uma sessão de autenticação aqui.
        res.status(200).send({token});
     } catch (error) {
       console.error(error);
