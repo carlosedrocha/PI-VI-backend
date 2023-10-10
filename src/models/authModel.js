@@ -9,13 +9,10 @@ class AuthModel {
         this.prisma = new PrismaClient();
         this.setupRoutes();
     }
-
     setupRoutes() {
         this.router.post('/login', this.login.bind(this));
     }
-
     async login(req, res, next) {
-        console.log()
         try {
             const { email, password } = req.body;
 
@@ -30,8 +27,6 @@ class AuthModel {
                 throw new Error("Usuario nao encontrado, verifique as credenciais")
                 // return res.status(401).json({ error: 'Credenciais inválidas' });
             }
-
-            console.log(password, ":", user.hashedPassword);
 
             if (password && user.hashedPassword) {
                 const passwordMatch = await verifyPassword(password, user.hashedPassword);
@@ -54,9 +49,8 @@ class AuthModel {
                 message: 'Autenticação bem-sucedida'
             });
         } catch (error) {
-            console.error(error);
             // Envie a resposta JSON de erro
-            throw new Error("Erro nao tratado: ", e.message)
+            throw new Error("Erro na autenticação")
             // return res.status(500).json({ error: 'Erro interno do servidor' });
         }
     }

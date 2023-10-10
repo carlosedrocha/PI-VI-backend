@@ -19,23 +19,16 @@ class AuthController {
     try {
       const { email, password } = req.body;
   
-      console.log('Email recebido:', email);
-  
       // Consulta o usuário com base no email fornecido
       const user = await this.authModel.login(req, res);
-  
-      console.log('Usuário encontrado:', user);
-  
+
       // Verifica se o usuário existe
       if (!user) {
-        console.log('Usuário não encontrado');
         return res.status(401).json({ error: 'Credenciais inválidas' });
       }
   
       // Verifica a senha
       const passwordMatch = await bcrypt.compare(password, user.password);
-  
-      console.log('Comparação de senha:', passwordMatch);
   
       if (!passwordMatch) {
         console.log('Senha incorreta');
@@ -46,8 +39,7 @@ class AuthController {
   
       res.json({ message: 'Autenticação bem-sucedida' });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Erro na autenticação' });
+      res.status(400).json({ error: 'Erro na autenticação' });
     }
   }
 
@@ -64,7 +56,6 @@ class AuthController {
        next();
       });
       } catch (error) {
-        console.error(error);
         res.status(401).json({ error: 'Erro na autenticação' });
       }
   }
