@@ -26,6 +26,7 @@ class UserController {
       const user = await this.userModel.createUser({ username, email, password });
       res.status(201).json(user);
     } catch (error) {
+      console.log(error)
       res.status(400).json({ error: 'Erro ao criar usuário' });
     }
   }
