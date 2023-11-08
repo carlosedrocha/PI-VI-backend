@@ -1,24 +1,54 @@
 const { PrismaClient } = require('@prisma/client');
-
-const express = require('express')
+const http = require('http');
+const socketIO = require('socket.io');
+const express = require('express');
 
 class UserModel {
   constructor() {
-    this.router = express.Router();
+    this.app = express();
+    this.server = http.createServer(this.app);
+    this.io = socketIO(this.server);
     this.prisma = new PrismaClient();
+
     this.setupRoutes();
+    this.setupSocket();
   }
 
-
   setupRoutes() {
-    this.router.post('/create', this.createUser.bind(this));
-    this.router.get('/all', this.selectUsers.bind(this));
-    this.router.delete('/delete/:id', this.deleteUser.bind(this));
-    this.router.put('/updateUserName/:id', this.updateUserName.bind(this));
-    this.router.put('/updateEmail/:id', this.updateEmail.bind(this));
-    this.router.put('/updatePassword/:id', this.updatePassword.bind(this));
-    this.router.post('/login', this.login.bind(this));
- }
+    this.app.post('/create', this.createUser.bind(this));
+    this.app.get('/all', this.selectUsers.bind(this));
+    this.app.delete('/delete/:id', this.deleteUser.bind(this));
+    this.app.put('/updateUserName/:id', this.updateUserName.bind(this));
+    this.app.put('/updateEmail/:id', this.updateEmail.bind(this));
+    this.app.put('/updatePassword/:id', this.updatePassword.bind(this));
+    this.app.post('/login', this.login.bind(this));
+  }
+
+  setupSocket() {
+    this.io.on('connection', (socket) => {
+      console.log('User connected:', socket.id);
+
+      socket.on('login', async ({ username, password }) => {
+        try {
+          const user = await this.login(username, password);
+          if (user) {
+            // Success
+            socket.emit('login-success', user);
+          } else {
+            // Failure
+            socket.emit('login-fail', { message: 'Invalid credentials' });
+          }
+        } catch (error) {
+          // Error
+          socket.emit('login-error', { message: 'Error during login' });
+        }
+      });
+    });
+
+    const PORT = process.env.PORT || 3001;
+    this.server.listen(PORT);
+    console.log(`Socket server running at http://localhost:${PORT}`);
+  }
 
   async createUser({ username, email, password }) {
     console.log('Creating user...');
